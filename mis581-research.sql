@@ -141,7 +141,7 @@ left join OST_EOC_Results o on e.State_Student_ID=o.StateID
 left join HighSchool.dbo.Demographics d on e.State_Student_ID=d.StateStudentID
 where e.Grade_Attributed in ('9','10') and e.Projection like '%arts ii%' 
 and o.TestName like '%arts 2%'
---and e.State_Student_ID='VG9307864'
+
 
 --//[910 GROUP]-MATH---
 select distinct 
@@ -166,4 +166,4 @@ left join OST_EOC_Results o on e.State_Student_ID=o.StateID
 left join HighSchool.dbo.Demographics d on e.State_Student_ID=d.StateStudentID
 where e.Grade_Attributed in ('9','10') and e.Projection like '%algebra%'
 and o.TestName like '%algebra%'
---and e.State_Student_ID='VG9307864'
+
