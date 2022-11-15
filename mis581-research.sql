@@ -8,7 +8,6 @@ d.StudentNumber
 ,d.DistrictAdmissionDate
 ,'YearsinDistrict' = (SELECT (DATEDIFF(DAY, DistrictAdmissionDate, CURRENT_TIMESTAMP) / 365.25))
 ,'KRA_LL' = (select coalesce(max(LangLitScore),0) from KRA_TABLE k where d.StudentNumber=k.LocalID)
---,'KRA_MA' = (select coalesce(max(MathScore),0) from KRA_TABLE k where d.StudentNumber=k.LocalID)
 ,'KRA_OVERALL' = (select coalesce(max(OverallScore),0) from KRA_TABLE k where d.StudentNumber=k.LocalID)
 ,i.Test_Date
 ,'Term' = case when (Test_Date between '2022-08-01' and '2023-01-03') then 'Fall'
@@ -36,7 +35,6 @@ d.StudentNumber
 ,DisabilityCondition = case when d.DisabilityCondition = '**' then 'No' else 'Yes' end
 ,d.DistrictAdmissionDate
 ,'YearsinDistrict' = (SELECT (DATEDIFF(DAY, DistrictAdmissionDate, CURRENT_TIMESTAMP) / 365.25))
---,'KRA_LL' = (select coalesce(max(LangLitScore),0) from KRA_TABLE k where d.StudentNumber=k.LocalID)
 ,'KRA_MA' = (select coalesce(max(MathScore),0) from KRA_TABLE k where d.StudentNumber=k.LocalID)
 ,'KRA_OVERALL' = (select coalesce(max(OverallScore),0) from KRA_TABLE k where d.StudentNumber=k.LocalID)
 ,i.Test_Date
