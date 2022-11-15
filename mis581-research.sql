@@ -19,6 +19,9 @@ d.StudentNumber
 ,i.Scale_Score
 ,i.Percentile
 ,i.Grade
+,i.Typical_Growth
+,i.Stretch_Growth
+,'TotalMin' = (select coalesce(sum(Min_per_Lesson),0) from iReady_Reading_Pers p where d.StudentNumber=p.StudentID)
 ,i.Subject
 from Default_StudentRoster d
 inner join iready_diag_agg_ela i on d.StudentNumber=i.Student_ID
@@ -45,6 +48,9 @@ d.StudentNumber
 ,i.Scale_Score
 ,i.Percentile
 ,i.Grade
+,i.Typical_Growth
+,i.Stretch_Growth
+,'TotalMin' = (select coalesce(sum(Min_per_Lesson),0) from iReady_Math_Pers p where d.StudentNumber=p.StudentID)
 ,i.Subject
 from Default_StudentRoster d
 inner join iready_diag_agg_math i on d.StudentNumber=i.Student_ID
@@ -68,6 +74,9 @@ d.StudentNumber
 ,i.Scale_Score
 ,i.Percentile
 ,i.Grade
+,i.Typical_Growth
+,i.Stretch_Growth
+,'TotalMin' = (select coalesce(sum(Min_per_Lesson),0) from iReady_Reading_Pers p where d.StudentNumber=p.StudentID)
 ,i.Subject
 ,o.TestName
 ,o.ProficiencyLevel
@@ -96,6 +105,9 @@ d.StudentNumber
 ,i.Scale_Score
 ,i.Percentile
 ,i.Grade
+,i.Typical_Growth
+,i.Stretch_Growth
+,'TotalMin' = (select coalesce(sum(Min_per_Lesson),0) from iReady_Math_Pers p where d.StudentNumber=p.StudentID)
 ,i.Subject
 ,o.TestName
 ,o.ProficiencyLevel
@@ -122,13 +134,14 @@ e.State_Student_ID
 ,o.ScaledScore as EOC_Score
 ,'Diagnostic1' = (select max(Diagnostic_Overall_Scale_Score_1) from district.dbo.iReady_diagnostic_ela_ytd  i where d.StudentNumber=i.Student_ID) 
 ,'Diagnostic2' = (select max(Diagnostic_Overall_Scale_Score_2) from district.dbo.iReady_diagnostic_ela_ytd  i where d.StudentNumber=i.Student_ID) 
-,'Diagnostic3' = (select max(Diagnostic_Overall_Scale_Score_Most_Recent) from district.dbo.iReady_diagnostic_ela_ytd  i where d.StudentNumber=i.Student_ID) 
+,'Diagnostic3' = (select max(Diagnostic_Overall_Scale_Score_Most_Recent) from district.dbo.iReady_diagnostic_ela_ytd  i where d.StudentNumber=i.Student_ID)
+,'YearsinDistrict' = (SELECT (DATEDIFF(DAY, DistrictAdmissionDate, CURRENT_TIMESTAMP) / 365.25) from district.dbo.Default_StudentRoster r where r.StateStudentID=e.State_Student_ID)
 from [EVAAS_2022_Student_Projections] e
 left join OST_EOC_Results o on e.State_Student_ID=o.StateID
 left join HighSchool.dbo.Demographics d on e.State_Student_ID=d.StateStudentID
 where e.Grade_Attributed in ('9','10') and e.Projection like '%arts ii%' 
 and o.TestName like '%arts 2%'
-
+--and e.State_Student_ID='VG9307864'
 
 --//[910 GROUP]-MATH---
 select distinct 
@@ -147,8 +160,10 @@ e.State_Student_ID
 ,'Diagnostic1' = (select max(Diagnostic_Overall_Scale_Score_1) from district.dbo.iReady_diagnostic_math_ytd  i where d.StudentNumber=i.Student_ID) 
 ,'Diagnostic2' = (select max(Diagnostic_Overall_Scale_Score_2) from district.dbo.iReady_diagnostic_math_ytd  i where d.StudentNumber=i.Student_ID) 
 ,'Diagnostic3' = (select max(Diagnostic_Overall_Scale_Score_Most_Recent) from district.dbo.iReady_diagnostic_math_ytd  i where d.StudentNumber=i.Student_ID) 
+,'YearsinDistrict' = (SELECT (DATEDIFF(DAY, DistrictAdmissionDate, CURRENT_TIMESTAMP) / 365.25) from district.dbo.Default_StudentRoster r where r.StateStudentID=e.State_Student_ID)
 from [EVAAS_2023_Student_Projections] e
 left join OST_EOC_Results o on e.State_Student_ID=o.StateID
 left join HighSchool.dbo.Demographics d on e.State_Student_ID=d.StateStudentID
 where e.Grade_Attributed in ('9','10') and e.Projection like '%algebra%'
 and o.TestName like '%algebra%'
+--and e.State_Student_ID='VG9307864'
